@@ -1,9 +1,10 @@
 import pricingData from "../../data/pricingData"
 import PricingCard from "./PricingCard"
 
+// Pricing section with plans. `id="pricing"` allows direct linking from nav.
 export default function Pricing() {
   return (
-    <section className="px-6 py-32">
+    <section id="pricing" className="px-6 py-32">
 
       {/* Heading */}
       <div className="text-center mb-20">

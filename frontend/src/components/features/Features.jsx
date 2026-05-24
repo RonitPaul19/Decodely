@@ -1,9 +1,11 @@
 import featuresData from "../../data/featuresData"
 import FeatureCard from "./FeatureCard"
 
+// Features section: lists product capabilities. The `id="features"` is
+// important for anchor navigation (nav links point to '/#features').
 export default function Features() {
   return (
-    <section className="px-6 py-24">
+    <section id="features" className="px-6 py-24">
 
       {/* Section Heading */}
       <div className="text-center mb-16">
@@ -18,7 +20,7 @@ export default function Features() {
 
       </div>
 
-      {/* Feature Cards */}
+      {/* Feature Cards: rendered from data */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
         {featuresData.map((feature) => (

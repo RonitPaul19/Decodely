@@ -3,9 +3,11 @@ import FooterColumn from "./FooterColumn";
 import FooterBottom from "./FooterBottom";
 import { footerData } from "../../data/FooterData"
 
+// Footer contains company info and columns. `id="about"` lets the nav
+// link scroll to this section directly.
 export default function Footer() {
   return (
-    <footer className="bg-black text-white border-t border-zinc-800 px-6 py-12">
+    <footer id="about" className="bg-black text-white border-t border-zinc-800 px-6 py-12">
 
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:justify-between gap-10">
 

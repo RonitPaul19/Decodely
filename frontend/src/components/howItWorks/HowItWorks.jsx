@@ -1,9 +1,11 @@
 import howItWorksData from "../../data/howItWorksData"
 import StepCard from "./StepCard"
 
+// 'How It Works' section explaining the learning flow. `id="howitworks"`
+// enables anchor navigation from the header.
 export default function HowItWorks() {
   return (
-    <section className="px-6 py-28">
+    <section id="howitworks" className="px-6 py-28">
 
       {/* Heading */}
       <div className="text-center mb-20">
