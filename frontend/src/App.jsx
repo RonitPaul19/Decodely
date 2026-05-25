@@ -7,10 +7,13 @@ import HomePage from "./pages/HomePage"
 import TryNowPage from "./pages/TryNowPage.jsx"
 
 export default function App() {
+  const { pathname } = useLocation()
+  const isTryPage = pathname === "/try"
+
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      {/* Main navigation bar (always visible) */}
-      <Navbar />
+      {/* Main navigation bar */}
+      <Navbar hideLinks={isTryPage} showBackButton={isTryPage} />
 
       {/* ScrollToHash ensures route+hash scrolling works reliably */}
       <ScrollToHash />

@@ -27,3 +27,17 @@ html {
   scrollbar-width: thin;
   scrollbar-color: #27272a #09090b;
 }
+
+.history-pane {
+  /* Reserve space for the sidebar scrollbar so history titles do not shift. */
+  scrollbar-gutter: stable;
+}
+
+.history-pane::-webkit-scrollbar {
+  width: 10px;
+}
+
+.history-pane::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border: 2px solid #09090b;
+}

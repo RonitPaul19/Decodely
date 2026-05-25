@@ -5,8 +5,9 @@ const pricingData = [
     price: "$0",
     duration: "/limited",
     features: [
-      "5 code explanations/day",
+      "10 code explanations/day",
       "Basic AI explanations",
+      "Limited language support",
       "Community support",
     ],
     popular: false,
