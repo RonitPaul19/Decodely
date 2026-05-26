@@ -32,18 +32,6 @@ Many beginners struggle to understand what code actually does.
 
 ---
 
-## 🚀 Getting Started
-
-(You can add setup instructions here later, like installation or usage steps)
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to fork this project and improve Decodely.
-
----
-
-## 📄 License
-
-(Add your license here, e.g., MIT License)
