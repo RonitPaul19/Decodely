@@ -5,11 +5,15 @@ import HistorySection from "./HistorySection"
 
 const HISTORY_STORAGE_KEY = "decodelyExplanationHistory"
 const MAX_HISTORY_ITEMS = 8
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
 
 export default function TryNow() {
   const [code, setCode] = useState("")
   const [history, setHistory] = useState(() => loadHistory())
   const [activeHistoryId, setActiveHistoryId] = useState(null)
+  const [explanation, setExplanation] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     try {
@@ -19,9 +23,42 @@ export default function TryNow() {
     }
   }, [history])
 
-  const handleExplain = () => {
+  const handleExplain = async () => {
     if (!code.trim()) return
-    // Output generation will be connected later.
+
+    setIsLoading(true)
+    setError("")
+    setExplanation("")
+
+    try {
+      const response = await fetch(`${API_URL}/api/explain`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data?.error || "Request failed.")
+      }
+
+      setExplanation(data.explanation)
+
+      if (activeHistoryId) {
+        setHistory((currentHistory) =>
+          currentHistory.map((entry) =>
+            entry.id === activeHistoryId
+              ? { ...entry, explanation: data.explanation }
+              : entry
+          )
+        )
+      }
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleCodeChange = (nextCode) => {
@@ -32,11 +69,7 @@ export default function TryNow() {
     setHistory((currentHistory) =>
       currentHistory.map((entry) =>
         entry.id === activeHistoryId
-          ? {
-              ...entry,
-              title: createHistoryTitle(nextCode),
-              code: nextCode,
-            }
+          ? { ...entry, title: createHistoryTitle(nextCode), code: nextCode }
           : entry
       )
     )
@@ -47,6 +80,8 @@ export default function TryNow() {
 
     if (activeEntry && !activeEntry.code.trim()) {
       setCode("")
+      setExplanation("")
+      setError("")
       return
     }
 
@@ -54,21 +89,28 @@ export default function TryNow() {
       id: createHistoryId(),
       title: createHistoryTitle(""),
       code: "",
+      explanation: "",
       createdAt: new Date().toISOString(),
     }
 
     setCode("")
+    setExplanation("")
+    setError("")
     setActiveHistoryId(nextEntry.id)
     setHistory((currentHistory) => [nextEntry, ...currentHistory].slice(0, MAX_HISTORY_ITEMS))
   }
 
   const handleSelectHistory = (entry) => {
     setCode(entry.code)
+    setExplanation(entry.explanation || "")
+    setError("")
     setActiveHistoryId(entry.id)
   }
 
   const handleClearHistory = () => {
     setCode("")
+    setExplanation("")
+    setError("")
     setHistory([])
     setActiveHistoryId(null)
   }
@@ -90,9 +132,13 @@ export default function TryNow() {
               code={code}
               onCodeChange={handleCodeChange}
               onExplain={handleExplain}
-              canExplain={Boolean(code.trim())}
+              canExplain={Boolean(code.trim()) && !isLoading}
             />
-            <ExplanationPanel />
+            <ExplanationPanel
+              explanation={explanation}
+              isLoading={isLoading}
+              error={error}
+            />
           </div>
         </div>
       </section>
@@ -104,14 +150,9 @@ function loadHistory() {
   try {
     const storedHistory = localStorage.getItem(HISTORY_STORAGE_KEY)
     if (!storedHistory) return []
-
     const parsedHistory = JSON.parse(storedHistory)
     if (!Array.isArray(parsedHistory)) return []
-
-    return parsedHistory
-      .map(normalizeHistoryEntry)
-      .filter(Boolean)
-      .slice(0, MAX_HISTORY_ITEMS)
+    return parsedHistory.map(normalizeHistoryEntry).filter(Boolean).slice(0, MAX_HISTORY_ITEMS)
   } catch {
     return []
   }
@@ -119,13 +160,12 @@ function loadHistory() {
 
 function normalizeHistoryEntry(entry) {
   if (!entry || typeof entry !== "object") return null
-
   const code = typeof entry.code === "string" ? entry.code : ""
-
   return {
     id: typeof entry.id === "string" ? entry.id : createHistoryId(),
     title: typeof entry.title === "string" ? entry.title : createHistoryTitle(code),
     code,
+    explanation: typeof entry.explanation === "string" ? entry.explanation : "",
     createdAt: isValidDate(entry.createdAt) ? entry.createdAt : new Date().toISOString(),
   }
 }

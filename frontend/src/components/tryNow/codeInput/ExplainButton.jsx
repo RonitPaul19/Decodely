@@ -10,7 +10,7 @@ export default function ExplainButton({ canExplain, onExplain }) {
           : "bg-zinc-800 text-zinc-500 cursor-not-allowed"
       }`}
     >
-      Explain
+      {canExplain ? "Explain" : "Explain"}
     </button>
   )
 }
