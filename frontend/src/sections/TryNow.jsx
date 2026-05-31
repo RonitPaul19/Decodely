@@ -117,7 +117,7 @@ export default function TryNow() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
-      <section className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-[1440px] mx-auto">
+      <section className="px-4 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-360 mx-auto">
         <div className="space-y-5 lg:space-y-0 lg:pl-72">
           <HistorySection
             entries={history}
