@@ -1,5 +1,5 @@
-import pricingData from "../../data/pricingData"
-import PricingCard from "./PricingCard"
+import pricingData from "../data/pricingData"
+import PricingCard from "../components/pricing/PricingCard"
 
 // Pricing section with plans. `id="pricing"` allows direct linking from nav.
 export default function Pricing() {

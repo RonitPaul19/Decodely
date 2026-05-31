@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import CodeInputPanel from "./CodeInputPanel"
-import ExplanationPanel from "./ExplanationPanel"
-import HistorySection from "./HistorySection"
+import CodeInputPanel from "../components/tryNow/CodeInputPanel"
+import ExplanationPanel from "../components/tryNow/ExplanationPanel"
+import HistorySection from "../components/tryNow/HistorySection"
 
 const HISTORY_STORAGE_KEY = "decodelyExplanationHistory"
 const MAX_HISTORY_ITEMS = 8

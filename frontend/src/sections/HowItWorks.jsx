@@ -1,5 +1,5 @@
-import howItWorksData from "../../data/howItWorksData"
-import StepCard from "./StepCard"
+import howItWorksData from "../data/howItWorksData"
+import StepCard from "../components/howItWorks/StepCard"
 
 // 'How It Works' section explaining the learning flow. `id="howitworks"`
 // enables anchor navigation from the header.

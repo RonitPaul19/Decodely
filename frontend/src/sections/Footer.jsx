@@ -1,7 +1,7 @@
-import FooterBrand from "./FooterBrand";
-import FooterColumn from "./FooterColumn";
-import FooterBottom from "./FooterBottom";
-import { footerData } from "../../data/FooterData"
+import FooterBrand from "../components/footer/FooterBrand";
+import FooterColumn from "../components/footer/FooterColumn";
+import FooterBottom from "../components/footer/FooterBottom";
+import { footerData } from "../data/FooterData"
 
 // Footer contains company info and columns. `id="about"` lets the nav
 // link scroll to this section directly.

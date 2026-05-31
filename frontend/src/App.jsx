@@ -2,7 +2,7 @@
 // Uses react-router for SPA navigation between pages.
 import { Routes, Route, useLocation } from "react-router-dom"
 import { useEffect } from "react"
-import Navbar from "./components/navbar/Navbar"
+import Navbar from "./sections/Navbar"
 import HomePage from "./pages/HomePage"
 import TryNowPage from "./pages/TryNowPage.jsx"
 

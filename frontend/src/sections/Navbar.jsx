@@ -1,7 +1,7 @@
-import Logo from "./Logo";
-import NavLinks from "./NavLinks";
-import CTAButton from "./CTAButton";
-import BackButton from "./BackButton";
+import Logo from "../components/navbar/Logo";
+import NavLinks from "../components/navbar/NavLinks";
+import CTAButton from "../components/navbar/CTAButton";
+import BackButton from "../components/navbar/BackButton";
 
 export default function Navbar({ hideLinks = false, showBackButton = false }) {
   return (

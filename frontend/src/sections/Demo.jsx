@@ -1,5 +1,5 @@
-import CodeWindow from "./CodeWindow"
-import ExplanationWindow from "./ExplanationWindow"
+import CodeWindow from "../components/demo/CodeWindow"
+import ExplanationWindow from "../components/demo/ExplanationWindow"
 
 export default function Demo() {
   return (

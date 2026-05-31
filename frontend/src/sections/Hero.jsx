@@ -1,6 +1,6 @@
-import HeroTitle from "./HeroTitle"
-import HeroDescription from "./HeroDescription"
-import HeroButton from "./HeroButton"
+import HeroTitle from "../components/hero/HeroTitle"
+import HeroDescription from "../components/hero/HeroDescription"
+import HeroButton from "../components/hero/HeroButton"
 
 export default function Hero() {
   return (

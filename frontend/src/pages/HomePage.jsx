@@ -1,11 +1,11 @@
 // Home page composed of several sections. Each section exposes an `id`
 // so that anchor links (e.g. /#features) can scroll to them directly.
-import Hero from "../components/hero/Hero"
-import Features from "../components/features/Features"
-import HowItWorks from "../components/howItWorks/HowItWorks"
-import Demo from "../components/demo/Demo"
-import Pricing from "../components/pricing/Pricing"
-import Footer from "../components/footer/Footer"
+import Hero from "../sections/Hero"
+import Features from "../sections/Features"
+import HowItWorks from "../sections/HowItWorks"
+import Demo from "../sections/Demo"
+import Pricing from "../sections/Pricing"
+import Footer from "../sections/Footer"
 
 export default function HomePage() {
   return (
