@@ -53,6 +53,17 @@ export default function TryNow() {
               : entry
           )
         )
+      } else {
+        const nextEntry = {
+          id: createHistoryId(),
+          title: createHistoryTitle(code),
+          code,
+          explanation: data.explanation,
+          createdAt: new Date().toISOString(),
+        }
+
+        setActiveHistoryId(nextEntry.id)
+        setHistory((currentHistory) => [nextEntry, ...currentHistory].slice(0, MAX_HISTORY_ITEMS))
       }
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.")
