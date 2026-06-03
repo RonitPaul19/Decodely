@@ -90,6 +90,8 @@ router.post("/", async (req, res) => {
                 - Security considerations
                 - Possible improvements
 
+                # **Sample input(if present) and output** (*Imp*)
+
                 Important Rules:
                 - Only explain concepts actually present in the code
                 - Do not hallucinate algorithms, patterns, or optimizations
