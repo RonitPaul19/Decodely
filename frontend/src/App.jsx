@@ -1,11 +1,11 @@
 // App routing entry: defines top-level routes and mounting points.
 // Uses react-router for SPA navigation between pages.
-import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import Navbar from "./sections/Navbar";
+import { Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import TryNowPage from "./pages/TryNowPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import TryNowPage from "./pages/TryNowPage.jsx";
+import Navbar from "./sections/Navbar";
 
 export default function App() {
   const { pathname } = useLocation();

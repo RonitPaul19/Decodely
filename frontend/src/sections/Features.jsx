@@ -1,5 +1,5 @@
-import featuresData from "../data/featuresData"
 import FeatureCard from "../components/features/FeatureCard"
+import featuresData from "../data/featuresData"
 
 // Features section: lists product capabilities. The `id="features"` is
 // important for anchor navigation (nav links point to '/#features').
