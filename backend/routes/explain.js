@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 router.post("/", async (req, res) => {
-  const { code } = req.body;
+  const { code, language } = req.body;
 
   if (!code || !code.trim()) {
     return res.status(400).json({ error: "No code provided." });
@@ -16,7 +16,12 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const groqResponse = await fetch(
+      const normalizedLanguage = typeof language === "string" ? language : "auto"
+      const languageHint = normalizedLanguage === "auto"
+        ? "If the language is not obvious from the code, infer the programming language and mention it first."
+        : `The user selected ${normalizeLanguageLabel(normalizedLanguage)} as the language.`
+
+      const groqResponse = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
         method: "POST",
@@ -103,8 +108,12 @@ router.post("/", async (req, res) => {
             `,
             },
             {
+              role: "system",
+              content: languageHint,
+            },
+            {
               role: "user",
-              content: `Explain this code:\n\n\`\`\`\n${code}\n\`\`\``,
+              content: `Explain this code${normalizedLanguage !== "auto" ? ` as ${normalizeLanguageLabel(normalizedLanguage)}` : ""}:\n\n\`\`\`\n${code}\n\`\`\``,
             },
           ],
         }),
@@ -131,5 +140,22 @@ router.post("/", async (req, res) => {
     });
   }
 });
+
+function normalizeLanguageLabel(language) {
+  const labels = {
+    auto: "Auto-detect",
+    javascript: "JavaScript",
+    python: "Python",
+    java: "Java",
+    csharp: "C#",
+    c: "C",
+    cpp: "C++",
+    ocaml: "OCaml",
+    typescript: "TypeScript",
+    go: "Go",
+  }
+
+  return labels[language] || "the correct programming language"
+}
 
 export default router;
