@@ -22,7 +22,7 @@ export default function CodeInputPanel({
         languageLabels={languageLabels}
         onLanguageChange={onLanguageChange}
       />
-      <CodeEditor code={code} onCodeChange={onCodeChange} />
+      <CodeEditor code={code} selectedLanguage={selectedLanguage} onCodeChange={onCodeChange} />
       <ExplainButton canExplain={canExplain} onExplain={onExplain} />
     </div>
   )
