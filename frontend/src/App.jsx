@@ -24,7 +24,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/try" element={<TryNowPage />} />
         <Route path="/login" element={<LoginPage />} />
-       <Route path="*" element={<HomePage />} />
+        <Route path="*" element={<HomePage />} />
       </Routes>
     </div>
   );

@@ -1,1 +1,1 @@
-export { default } from "../components/tryNow/TryNowPanel"
+export { default } from "../components/tryNow/TryNowPanel";
