@@ -40,6 +40,6 @@ const pricingData = [
     ],
     popular: false,
   },
-]
+];
 
-export default pricingData
+export default pricingData;
