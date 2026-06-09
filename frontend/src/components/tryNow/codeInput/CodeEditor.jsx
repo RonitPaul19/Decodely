@@ -1,4 +1,4 @@
-import Editor from "react-simple-code-editor"
+import { useRef } from "react"
 import Prism from "prismjs"
 import "prismjs/components/prism-javascript"
 import "prismjs/components/prism-python"
@@ -19,27 +19,33 @@ const languageMap = {
 }
 
 export default function CodeEditor({ code, onCodeChange, selectedLanguage = "auto" }) {
+  const preRef = useRef(null)
   const lang = languageMap[selectedLanguage] || "javascript"
 
-  const highlight = (codeStr) => {
+  const highlighted = () => {
     try {
-      return Prism.highlight(codeStr, Prism.languages[lang] || Prism.languages.javascript, lang)
+      return Prism.highlight(code || "", Prism.languages[lang] || Prism.languages.javascript, lang)
     } catch (e) {
-      return codeStr
+      return (code || "")
     }
   }
 
   return (
-    <div className="min-h-65 sm:min-h-75 lg:min-h-70 w-full rounded-2xl bg-black/60 border border-zinc-800 p-0 text-sm text-zinc-100">
-      <Editor
+    <div className="relative min-h-65 sm:min-h-75 lg:min-h-70 w-full rounded-2xl bg-black/60 border border-zinc-800 p-0 text-sm text-zinc-100 font-mono">
+      <pre
+        aria-hidden="true"
+        ref={preRef}
+        className="m-0 p-4 overflow-auto whitespace-pre-wrap rounded-2xl text-sm leading-5 pointer-events-none"
+        dangerouslySetInnerHTML={{ __html: highlighted() }}
+      />
+
+      <textarea
         value={code}
-        onValueChange={(val) => onCodeChange(val)}
-        highlight={highlight}
-        padding={16}
-        textareaId="code-area"
-        className="w-full textarea-code outline-none bg-transparent font-mono"
-        preClassName="whitespace-pre-wrap"
-        style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace' }}
+        onChange={(e) => onCodeChange(e.target.value)}
+        spellCheck="false"
+        placeholder="Paste your code here..."
+        className="absolute inset-0 w-full h-full resize-none rounded-2xl bg-transparent p-4 text-sm text-transparent caret-white outline-none"
+        style={{ WebkitTextFillColor: "transparent" }}
       />
     </div>
   )
