@@ -1,6 +1,6 @@
-import TryNow from "../sections/TryNow"
+import TryNowPanel from "../components/tryNow/TryNowPanel"
 
-// Page entry for Try Now. Delegates layout and panels to the TryNow component.
+// Page entry for Try Now. Renders the main Try Now panel directly.
 export default function TryNowPage() {
-  return <TryNow />
+  return <TryNowPanel />
 }
