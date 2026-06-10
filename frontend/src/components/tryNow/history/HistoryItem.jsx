@@ -8,7 +8,7 @@ export default function HistoryItem({ entry, isActive, onSelectEntry }) {
         isActive ? "bg-zinc-800 text-white" : "bg-transparent text-zinc-300 hover:bg-zinc-800"
       }`}
     >
-      <h3 className="min-w-0 overflow-hidden text-sm font-semibold text-white break-words line-clamp-2">
+      <h3 className="truncate text-sm font-semibold text-white">
         {entry.title}
       </h3>
     </button>

@@ -36,6 +36,8 @@ export default function TryNowPanel() {
     setError("")
     setExplanation("")
 
+    const entryId = activeHistoryId || createHistoryId()
+
     try {
       const response = await fetch(`${API_URL}/api/explain`, {
         method: "POST",
@@ -73,7 +75,7 @@ export default function TryNowPanel() {
         )
       } else {
         const nextEntry = {
-          id: createHistoryId(),
+          id: entryId,
           title: createHistoryTitle(code),
           code,
           explanation: data.explanation,
@@ -83,13 +85,38 @@ export default function TryNowPanel() {
           createdAt: new Date().toISOString(),
         }
 
-        setActiveHistoryId(nextEntry.id)
+        setActiveHistoryId(entryId)
         setHistory((currentHistory) => [nextEntry, ...currentHistory].slice(0, MAX_HISTORY_ITEMS))
       }
+
+      generateAITitle(code, entryId)
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.")
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const generateAITitle = async (code, entryId) => {
+    try {
+      const response = await fetch(`${API_URL}/api/generate-title`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      })
+
+      if (!response.ok) return
+
+      const data = await response.json()
+      if (!data?.title) return
+
+      setHistory((currentHistory) =>
+        currentHistory.map((entry) =>
+          entry.id === entryId ? { ...entry, title: data.title } : entry
+        )
+      )
+    } catch {
+      // Silently fail — fallback title (first line of code) remains
     }
   }
 
