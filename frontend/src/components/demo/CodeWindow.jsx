@@ -18,7 +18,7 @@ export default function CodeWindow() {
       </div>
 
       {/* Code */}
-      <pre className="p-6 text-sm overflow-x-auto leading-8">
+      <pre className="p-6 text-sm overflow-x-auto leading-8 font-mono">
         <code>
           <span className="text-blue-400">for</span>
 
