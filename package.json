@@ -1,0 +1,21 @@
+{
+  "name": "decodely",
+  "version": "1.0.0",
+  "description": "**Decodely** is a simple and powerful tool that helps you understand code by converting it into clear, human-readable English explanations.\r It is designed to make programming easier for beginners, students, and anyone who wants to learn how code works step by step.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RonitPaul19/Decodely.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RonitPaul19/Decodely/issues"
+  },
+  "homepage": "https://github.com/RonitPaul19/Decodely#readme"
+}
