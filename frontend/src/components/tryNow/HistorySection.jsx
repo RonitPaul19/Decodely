@@ -10,6 +10,7 @@ export default function HistorySection({
   onSelectEntry,
   onClearHistory,
   onRequestClearHistory,
+  onDeleteEntry,
 }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -62,7 +63,7 @@ export default function HistorySection({
       )}
 
       {hasEntries && filteredEntries.length > 0 ? (
-        <HistoryList entries={filteredEntries} activeEntryId={activeEntryId} onSelectEntry={onSelectEntry} />
+        <HistoryList entries={filteredEntries} activeEntryId={activeEntryId} onSelectEntry={onSelectEntry} onDeleteEntry={onDeleteEntry} />
       ) : hasEntries ? (
         <HistoryEmptyState>No matching chats.</HistoryEmptyState>
       ) : (

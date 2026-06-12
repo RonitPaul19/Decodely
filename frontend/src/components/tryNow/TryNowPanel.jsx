@@ -2,10 +2,17 @@ import { useEffect, useState } from "react"
 import CodeInputPanel from "./CodeInputPanel"
 import ExplanationPanel from "./ExplanationPanel"
 import HistorySection from "./HistorySection"
+import ClearHistoryDialog from "./ClearHistoryDialog"
 import { AUTO_LANGUAGE, LANGUAGE_LABELS, LANGUAGE_OPTIONS } from "../../data/languageData"
+import {
+  loadHistory,
+  createHistoryId,
+  createHistoryTitle,
+  detectLanguage,
+  HISTORY_STORAGE_KEY,
+  MAX_HISTORY_ITEMS,
+} from "./historyUtils"
 
-const HISTORY_STORAGE_KEY = "decodelyExplanationHistory"
-const MAX_HISTORY_ITEMS = 8
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
 
 export default function TryNowPanel() {
@@ -206,6 +213,17 @@ export default function TryNowPanel() {
     setSelectedLanguage(AUTO_LANGUAGE)
   }
 
+  const handleDeleteEntry = (entryId) => {
+    setHistory((currentHistory) => currentHistory.filter((entry) => entry.id !== entryId))
+    if (activeHistoryId === entryId) {
+      setCode("")
+      setExplanation("")
+      setError("")
+      setActiveHistoryId(null)
+      setSelectedLanguage(AUTO_LANGUAGE)
+    }
+  }
+
   const handleCancelClearHistory = () => setShowClearDialog(false)
 
   return (
@@ -219,6 +237,7 @@ export default function TryNowPanel() {
             onSelectEntry={handleSelectHistory}
             onClearHistory={handleClearHistory}
             onRequestClearHistory={handleRequestClearHistory}
+            onDeleteEntry={handleDeleteEntry}
           />
 
           <div className="min-w-0 space-y-5">
@@ -243,82 +262,11 @@ export default function TryNowPanel() {
       </section>
 
       {showClearDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6">
-          <div className="w-full max-w-sm rounded-3xl border border-zinc-800 bg-zinc-950 p-6 text-zinc-100 shadow-2xl">
-            <h3 className="text-base font-semibold">Clear history?</h3>
-            <p className="mt-3 text-sm text-zinc-400">
-              This will remove all saved chats from this device. This action cannot be undone.
-            </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
-              <button
-                type="button"
-                onClick={handleCancelClearHistory}
-                className="rounded-full border border-zinc-700 bg-transparent px-4 py-2 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:text-white"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmClearHistory}
-                className="rounded-full bg-transparent px-4 py-2 text-sm font-semibold text-rose-400 transition hover:bg-rose-500/10 hover:text-rose-200"
-              >
-                Clear History
-              </button>
-            </div>
-          </div>
-        </div>
+        <ClearHistoryDialog
+          onConfirm={handleConfirmClearHistory}
+          onCancel={handleCancelClearHistory}
+        />
       )}
     </main>
   )
-}
-
-function loadHistory() {
-  try {
-    const storedHistory = localStorage.getItem(HISTORY_STORAGE_KEY)
-    if (!storedHistory) return []
-    const parsedHistory = JSON.parse(storedHistory)
-    if (!Array.isArray(parsedHistory)) return []
-    return parsedHistory.map(normalizeHistoryEntry).filter(Boolean).slice(0, MAX_HISTORY_ITEMS)
-  } catch {
-    return []
-  }
-}
-
-function normalizeHistoryEntry(entry) {
-  if (!entry || typeof entry !== "object") return null
-  const code = typeof entry.code === "string" ? entry.code : ""
-  return {
-    id: typeof entry.id === "string" ? entry.id : createHistoryId(),
-    title: typeof entry.title === "string" ? entry.title : createHistoryTitle(code),
-    code,
-    explanation: typeof entry.explanation === "string" ? entry.explanation : "",
-    language: typeof entry.language === "string" ? entry.language : AUTO_LANGUAGE,
-    detectedLanguage: typeof entry.detectedLanguage === "string" ? entry.detectedLanguage : null,
-    createdAt: isValidDate(entry.createdAt) ? entry.createdAt : new Date().toISOString(),
-  }
-}
-
-function isValidDate(date) {
-  return Boolean(date) && !Number.isNaN(new Date(date).getTime())
-}
-
-function createHistoryId() {
-  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID()
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`
-}
-
-function createHistoryTitle(code) {
-  const trimmed = code.trim()
-  if (!trimmed) return "New explanation"
-  const firstLine = trimmed.split("\n")[0].trim()
-  return firstLine.length > 45 ? `${firstLine.slice(0, 42)}...` : firstLine
-}
-
-function detectLanguage(code) {
-  if (!code.trim()) return AUTO_LANGUAGE
-  const trimmed = code.trim()
-  if (trimmed.startsWith("import ") || trimmed.includes("console.log")) return "javascript"
-  if (trimmed.includes("def ") || trimmed.includes("print(")) return "python"
-  if (trimmed.includes("public static void main")) return "java"
-  return AUTO_LANGUAGE
 }
