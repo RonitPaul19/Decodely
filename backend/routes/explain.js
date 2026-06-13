@@ -1,8 +1,17 @@
 import { Router } from "express";
+import rateLimit from "express-rate-limit";
 
 const router = Router();
 
-router.post("/", async (req, res) => {
+const explainLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 20,
+  message: { error: "Daily limit reached. You can explain up to 20 code snippets per day. Try again tomorrow." },
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+
+router.post("/", explainLimiter, async (req, res) => {
   const { code, language } = req.body;
 
   if (!code || !code.trim()) {
