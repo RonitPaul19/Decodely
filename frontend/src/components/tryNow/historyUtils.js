@@ -47,9 +47,19 @@ export function createHistoryTitle(code) {
 
 export function detectLanguage(code) {
   if (!code.trim()) return AUTO_LANGUAGE
-  const trimmed = code.trim()
-  if (trimmed.startsWith("import ") || trimmed.includes("console.log")) return "javascript"
-  if (trimmed.includes("def ") || trimmed.includes("print(")) return "python"
-  if (trimmed.includes("public static void main")) return "java"
+  const t = code.trim()
+
+  if (t.includes("public static void main") || t.includes("System.out") || t.includes("System.err") || t.includes("System.in")) return "java"
+  if (t.includes("package main") || t.includes("func ") || t.includes("fmt.") || t.includes(":=")) return "go"
+  if (t.includes("#include <stdio.h>") || t.includes("printf(") || t.includes("scanf(")) return "c"
+  if (t.includes("#include <") || t.includes("std::") || t.includes("cout") || t.includes("cin")) return "cpp"
+  if (t.includes("using System") || t.includes("Console.") || t.includes("namespace ")) return "csharp"
+  if (t.includes(";;") || (t.includes("let ") && t.includes("match ")) || t.includes("fun ") || t.includes("type '")) return "ocaml"
+  if (t.includes(": string") || t.includes(": number") || t.includes(": boolean") || t.includes("interface ") || t.startsWith("type ")) return "typescript"
+  if (t.startsWith("import ") && (t.includes(" from ") || t.includes("require("))) return "javascript"
+  if (t.includes("def ") || t.includes("print(") || t.includes("if __name__")) return "python"
+  if (t.includes("function ") || t.includes("console.") || t.includes("=>") || t.includes("const ") || t.includes("let ") || t.includes("var ") || t.includes("export ")) return "javascript"
+  if (t.includes("import ") || t.includes("public class ") || t.includes("private class ")) return "java"
+
   return AUTO_LANGUAGE
 }

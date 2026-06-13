@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage.jsx";
 import TryNowPage from "./pages/TryNowPage.jsx";
 import Navbar from "./sections/Navbar";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -21,10 +22,10 @@ export default function App() {
 
       {/* Route switch: maps paths to page components */}
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/try" element={<TryNowPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<HomePage />} />
+        <Route path="/" element={<ErrorBoundary><HomePage /></ErrorBoundary>} />
+        <Route path="/try" element={<ErrorBoundary><TryNowPage /></ErrorBoundary>} />
+        <Route path="/login" element={<ErrorBoundary><LoginPage /></ErrorBoundary>} />
+        <Route path="*" element={<ErrorBoundary><HomePage /></ErrorBoundary>} />
       </Routes>
     </div>
   );

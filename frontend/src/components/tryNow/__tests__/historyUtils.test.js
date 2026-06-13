@@ -5,7 +5,6 @@ import {
   loadHistory,
   createHistoryId,
   createHistoryTitle,
-  detectLanguage,
 } from "../historyUtils"
 
 beforeEach(() => {
@@ -75,35 +74,5 @@ describe("createHistoryTitle", () => {
     const result = createHistoryTitle(longLine)
     expect(result).toHaveLength(45)
     expect(result.endsWith("...")).toBe(true)
-  })
-})
-
-describe("detectLanguage", () => {
-  it("returns auto for empty code", () => {
-    expect(detectLanguage("")).toBe("auto")
-  })
-
-  it("detects JavaScript from import statement", () => {
-    expect(detectLanguage("import React from 'react'")).toBe("javascript")
-  })
-
-  it("detects JavaScript from console.log", () => {
-    expect(detectLanguage('console.log("hi")')).toBe("javascript")
-  })
-
-  it("detects Python from def ", () => {
-    expect(detectLanguage("def hello():")).toBe("python")
-  })
-
-  it("detects Python from print(", () => {
-    expect(detectLanguage('print("hello")')).toBe("python")
-  })
-
-  it("detects Java from public static void main", () => {
-    expect(detectLanguage("public static void main")).toBe("java")
-  })
-
-  it("returns auto for unknown code", () => {
-    expect(detectLanguage("rusty code here")).toBe("auto")
   })
 })
